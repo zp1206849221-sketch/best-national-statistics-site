@@ -21,11 +21,12 @@ Five pages on hash routes, each reached from the top navigation:
 - **Society** (`#/society`) — households (55.7M, 38.1% one-person), marriage ages,
   internet use and foreign residents.
 - **Regions & sources** (`#/regions`) — all 47 prefectures ranked by 2020 census population,
-  and the official sources behind every figure.
+  the ten densest prefectures by people per km², and the official sources behind every figure.
 
 Every chart is an inline SVG drawn by `app/charts.js` from the numbers in `app/data.js`, and
-every figure names its source office and year on the page. The whole app is about 34 KB of
-text — the first load is `index.html`, one stylesheet and four small modules, nothing else.
+every figure names its source office and year on the page. Charts share one axis helper so
+line and bar charts always draw identical gridlines and tick labels. The whole app is about
+34 KB of text — the first load is `index.html`, one stylesheet and four small modules, nothing else.
 
 ## Layout of the repository
 

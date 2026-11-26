@@ -147,6 +147,20 @@ export const PREFECTURES = {
   densityNote: 'Tokyo is the densest prefecture at about 6,400 people per km²; Hokkaido the sparsest at about 63 per km².',
 };
 
+// Population density of the ten densest prefectures, people per km² (2020 census
+// population over land area, Statistics Bureau of Japan / Geospatial Information
+// Authority of Japan). Rounded to whole people; the national average is about 338.
+export const PREFECTURE_DENSITY = {
+  source: 'Statistics Bureau of Japan, Population Census 2020; Geospatial Information Authority of Japan land area',
+  unit: 'people per km², 2020',
+  rows: [
+    ['Tokyo', 6355], ['Osaka', 4638], ['Kanagawa', 3831], ['Saitama', 1934], ['Aichi', 1462],
+    ['Chiba', 1218], ['Fukuoka', 1027], ['Hyogo', 650], ['Kyoto', 557], ['Nara', 359],
+  ],
+  sparsest: { name: 'Hokkaido', value: 63 },
+  nationalAverage: 338,
+};
+
 // The offices behind the figures, for the sources page.
 export const SOURCES = [
   ['Statistics Bureau of Japan (MIC)', 'Population Census every five years, monthly population estimates, Labour Force Survey, Family Income and Expenditure Survey.'],

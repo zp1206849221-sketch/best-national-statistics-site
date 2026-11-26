@@ -15,6 +15,21 @@ function niceMax(v) {
   return (n <= 1 ? 1 : n <= 1.5 ? 1.5 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 3 ? 3 : n <= 4 ? 4 : n <= 5 ? 5 : n <= 6 ? 6 : n <= 8 ? 8 : 10) * p;
 }
 
+// Shared vertical scale for the line and bar charts: a "nice" ceiling for the largest
+// value, a y(value) projector, and the five gridlines with their tick labels.
+// Both charts used to build these inline; one helper keeps their axes identical.
+function yAxis(values, { padL, padR, padT, padB, w, h }) {
+  const yMax = niceMax(Math.max(...values) * 1.05);
+  const Y = v => padT + (1 - v / yMax) * (h - padT - padB);
+  let grid = '';
+  for (let i = 0; i <= 4; i++) {
+    const v = yMax * i / 4, y = Y(v);
+    grid += `<line x1="${padL}" y1="${y}" x2="${w - padR}" y2="${y}" stroke="${GRID}"/>`;
+    grid += `<text x="${padL - 6}" y="${y + 4}" text-anchor="end" class="tick">${Math.round(v * 10) / 10}</text>`;
+  }
+  return { yMax, Y, grid };
+}
+
 // A line chart of [x, y] points. options: { w, h, color, unit, yLabel, dashedFrom (index where a
 // second, dashed series starts, sharing points), area }
 export function lineChart(points, opts = {}) {
@@ -22,15 +37,10 @@ export function lineChart(points, opts = {}) {
   const padL = 46, padR = 14, padT = 14, padB = 28;
   const xs = points.map(p => p[0]), ys = points.map(p => p[1]);
   const x0 = Math.min(...xs), x1 = Math.max(...xs);
-  const yMax = niceMax(Math.max(...ys) * 1.05);
+  const { Y, grid } = yAxis(ys, { padL, padR, padT, padB, w, h });
   const X = x => padL + (x - x0) / (x1 - x0) * (w - padL - padR);
-  const Y = y => padT + (1 - y / yMax) * (h - padT - padB);
   let s = `<svg viewBox="0 0 ${w} ${h}" role="img" class="chart" aria-label="${esc(opts.aria ?? 'line chart')}">`;
-  for (let i = 0; i <= 4; i++) {
-    const v = yMax * i / 4, y = Y(v);
-    s += `<line x1="${padL}" y1="${y}" x2="${w - padR}" y2="${y}" stroke="${GRID}"/>`;
-    s += `<text x="${padL - 6}" y="${y + 4}" text-anchor="end" class="tick">${Math.round(v * 10) / 10}</text>`;
-  }
+  s += grid;
   const step = Math.ceil(xs.length / 6);
   xs.forEach((x, i) => {
     if (i % step === 0 || i === xs.length - 1) s += `<text x="${X(x)}" y="${h - 8}" text-anchor="middle" class="tick">${x}</text>`;
@@ -55,16 +65,11 @@ export function lineChart(points, opts = {}) {
 export function barChart(rows, opts = {}) {
   const w = opts.w ?? 720, h = opts.h ?? 300;
   const padL = 46, padR = 14, padT = 20, padB = 40;
-  const yMax = niceMax(Math.max(...rows.map(r => r[1])) * 1.05);
+  const { Y, grid } = yAxis(rows.map(r => r[1]), { padL, padR, padT, padB, w, h });
   const X = i => padL + i * (w - padL - padR) / rows.length;
   const bw = (w - padL - padR) / rows.length * 0.62;
-  const Y = v => padT + (1 - v / yMax) * (h - padT - padB);
   let s = `<svg viewBox="0 0 ${w} ${h}" role="img" class="chart" aria-label="${esc(opts.aria ?? 'bar chart')}">`;
-  for (let i = 0; i <= 4; i++) {
-    const v = yMax * i / 4, y = Y(v);
-    s += `<line x1="${padL}" y1="${y}" x2="${w - padR}" y2="${y}" stroke="${GRID}"/>`;
-    s += `<text x="${padL - 6}" y="${y + 4}" text-anchor="end" class="tick">${Math.round(v * 10) / 10}</text>`;
-  }
+  s += grid;
   rows.forEach((r, i) => {
     const x = X(i) + ((w - padL - padR) / rows.length - bw) / 2;
     s += `<rect x="${x}" y="${Y(r[1])}" width="${bw}" height="${Y(0) - Y(r[1])}" rx="3" fill="${r[2] ?? opts.color}"/>`;

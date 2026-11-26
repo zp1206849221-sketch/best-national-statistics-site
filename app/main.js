@@ -4,7 +4,7 @@
 import { overviewView, populationView, economyView, societyView, regionsView } from './views.js';
 
 const ROUTES = {
-  '/': ['overview', overviewView, 'Japan in Numbers — National Statistics'],
+  '/': ['overview', overviewView, 'Japan in Numbers — Population, Economy & Society'],
   '/population': ['population', populationView, 'Population — Japan in Numbers'],
   '/economy': ['economy', economyView, 'Economy — Japan in Numbers'],
   '/society': ['society', societyView, 'Society — Japan in Numbers'],
@@ -18,8 +18,12 @@ function render() {
   const [nav, view, title] = ROUTES[path] ?? ROUTES['/'];
   app.innerHTML = view();
   document.title = title;
-  document.querySelectorAll('[data-nav]').forEach(a =>
-    a.classList.toggle('active', a.dataset.nav === nav));
+  document.querySelectorAll('[data-nav]').forEach(a => {
+    const isCurrent = a.dataset.nav === nav;
+    a.classList.toggle('active', isCurrent);
+    if (isCurrent) a.setAttribute('aria-current', 'page');
+    else a.removeAttribute('aria-current');
+  });
   window.scrollTo(0, 0);
 }
 

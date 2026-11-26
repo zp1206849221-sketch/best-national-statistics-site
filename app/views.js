@@ -3,7 +3,7 @@
 
 import {
   META, POPULATION_HISTORY, AGE_PYRAMID_2024, AGE_SHARES, FERTILITY, LIFE_EXPECTANCY,
-  GDP, PUBLIC_DEBT, TRADE_2024, LABOUR, SOCIETY, PREFECTURES, SOURCES,
+  GDP, PUBLIC_DEBT, TRADE_2024, LABOUR, SOCIETY, PREFECTURES, PREFECTURE_DENSITY, SOURCES,
 } from './data.js';
 import { lineChart, barChart, pyramidChart, shareBar, PALETTE } from './charts.js';
 
@@ -193,11 +193,20 @@ export function regionsView() {
   <div class="page-head"><h1>Regions &amp; sources</h1>
   <p class="lede">Japan's 47 prefectures hold very unequal shares of the country: the top three —
   Tokyo, Kanagawa and Osaka — are home to one person in four.</p></div>
+  <div class="two-col">
   ${card('The ten largest prefectures, 2020 census',
     barChart(top10.map(([n, v]) => [n, Math.round(v / 100) / 10, PALETTE.blue]), { color: PALETTE.blue, aria: 'Ten largest prefectures by population' }) +
     `<p>Values in millions. Tokyo's 14.0 million is more than the smallest twenty prefectures combined.
     ${PREFECTURES.densityNote}</p>`,
     PREFECTURES.source)}
+  ${card('The ten densest prefectures — people per km², 2020',
+    barChart(PREFECTURE_DENSITY.rows.map(([n, v]) => [n, v, n === 'Tokyo' ? PALETTE.red : PALETTE.teal]), { color: PALETTE.teal, aria: 'Ten densest prefectures by population density' }) +
+    `<p>Tokyo packs in <strong>6,355 people per km²</strong> — about a hundred times Hokkaido's
+    ${PREFECTURE_DENSITY.sparsest.value}, and nearly nineteen times the national average of about
+    ${PREFECTURE_DENSITY.nationalAverage}. Density, not headcount, is what makes the capital feel crowded:
+    Kanagawa is only fourth by population but third by density.</p>`,
+    PREFECTURE_DENSITY.source)}
+  </div>
   ${card('All 47 prefectures, ranked — 2020 census, thousand people',
     `<div class="pref-table-wrap"><table class="pref-table"><thead><tr><th>#</th><th>Prefecture</th><th>People (000s)</th><th>Share</th></tr></thead>
     <tbody>${rows.map(([n, v], i) => `<tr><td>${i + 1}</td><td>${n}</td><td>${v.toLocaleString('en-US')}</td><td>${(v / total * 100).toFixed(1)}%</td></tr>`).join('')}</tbody></table></div>
