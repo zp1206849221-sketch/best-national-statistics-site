@@ -1,0 +1,96 @@
+/* Japan in Numbers — a clean statistical-office look: ink navy, paper white,
+   one crimson accent taken from the national flag, generous tables and charts. */
+
+:root {
+  --ink: #22304a;
+  --ink-soft: #4a5872;
+  --paper: #f7f5f0;
+  --card: #ffffff;
+  --line: #e3e7ee;
+  --red: #bc002d;
+  --blue: #2f6fb2;
+  --teal: #1f8a70;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans", "Segoe UI", system-ui, sans-serif;
+  line-height: 1.55;
+}
+
+.site-head {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 2rem;
+  padding: 0.9rem clamp(1rem, 4vw, 2.5rem);
+  background: var(--ink); color: #fff;
+  position: sticky; top: 0; z-index: 5;
+}
+.brand { display: flex; align-items: center; gap: 0.65rem; color: #fff; text-decoration: none; }
+.brand-disc { width: 26px; height: 26px; border-radius: 50%; background: var(--red); flex: none; box-shadow: 0 0 0 3px #fff inset; }
+.brand-text { font-weight: 700; font-size: 1.15rem; line-height: 1.15; display: flex; flex-direction: column; }
+.brand-text small { font-weight: 400; font-size: 0.72rem; color: #c6cede; letter-spacing: 0.04em; }
+.site-nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.1rem; margin-left: auto; }
+.site-nav a { color: #dbe2ef; text-decoration: none; font-size: 0.95rem; padding: 0.2rem 0.1rem; border-bottom: 2px solid transparent; }
+.site-nav a:hover { color: #fff; }
+.site-nav a.active { color: #fff; border-bottom-color: var(--red); }
+
+main { max-width: 1060px; margin: 0 auto; padding: 1.6rem clamp(1rem, 4vw, 2.5rem) 2.5rem; }
+
+.hero h1, .page-head h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); margin: 0.4rem 0 0.5rem; letter-spacing: -0.01em; }
+.lede { font-size: 1.06rem; color: var(--ink-soft); max-width: 46rem; margin: 0 0 1.2rem; }
+
+.kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.9rem; margin: 1.1rem 0; }
+.kpi { background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--red); border-radius: 10px; padding: 0.85rem 0.95rem; }
+.kpi-value { font-size: 1.65rem; font-weight: 800; letter-spacing: -0.01em; }
+.kpi-label { font-weight: 700; font-size: 0.86rem; margin-top: 0.1rem; }
+.kpi-sub { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.15rem; }
+
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.15rem 1.25rem 1rem; margin: 1.1rem 0; }
+.card h2 { font-size: 1.13rem; margin: 0 0 0.7rem; }
+.card p { margin: 0.65rem 0; }
+.source { font-size: 0.76rem; color: #8a94a6; margin-top: 0.7rem; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+.two-col .card { margin: 0; }
+.two-col { margin: 1.1rem 0; }
+
+.chart { width: 100%; height: auto; display: block; }
+.chart .tick { font-size: 11.5px; fill: #8a94a6; }
+.chart .chart-end { font-size: 13px; font-weight: 700; fill: var(--ink); }
+.chart .chart-note { font-size: 11.5px; fill: #8a94a6; }
+.chart .bar-val { font-size: 12px; font-weight: 700; fill: var(--ink); }
+.chart .pyr-head { font-size: 13px; font-weight: 700; }
+.chart .share-lab { font-size: 12.5px; fill: var(--ink); font-weight: 600; }
+
+.big-stat { font-size: 1.9rem; font-weight: 800; margin: 0.2rem 0 0.6rem; }
+.big-stat span { font-size: 0.95rem; font-weight: 400; color: var(--ink-soft); }
+
+.mini-table, .pref-table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+.mini-table td, .mini-table th { padding: 0.34rem 0.4rem; border-bottom: 1px solid var(--line); text-align: left; }
+.mini-table td:last-child { text-align: right; }
+.pref-table th, .pref-table td { padding: 0.3rem 0.5rem; border-bottom: 1px solid var(--line); text-align: right; }
+.pref-table th:nth-child(2), .pref-table td:nth-child(2) { text-align: left; }
+.pref-table thead th { background: var(--ink); color: #fff; position: sticky; top: 0; }
+.pref-table-wrap { max-height: 430px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
+
+.link-list, .src-list { margin: 0.4rem 0; padding-left: 1.15rem; }
+.link-list li, .src-list li { margin: 0.45rem 0; }
+.link-list a { color: var(--blue); font-weight: 700; text-decoration: none; }
+.link-list a:hover { text-decoration: underline; }
+
+.site-foot { border-top: 1px solid var(--line); padding: 1.2rem clamp(1rem, 4vw, 2.5rem) 1.6rem; color: var(--ink-soft); font-size: 0.85rem; max-width: 1060px; margin: 0 auto; }
+.foot-line { color: #8a94a6; font-size: 0.78rem; }
+
+::selection { background: #f3c1cd; }
+a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.site-nav a:focus-visible { outline-color: #fff; }
+
+@media (max-width: 760px) {
+  .kpi-row { grid-template-columns: 1fr 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .site-nav { margin-left: 0; }
+  .kpi-value { font-size: 1.4rem; }
+}
