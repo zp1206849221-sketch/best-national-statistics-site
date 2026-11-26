@@ -22,6 +22,55 @@ function card(title, body, sourceText) {
   return `<section class="card"><h2>${title}</h2>${body}${sourceText ? src(sourceText) : ''}</section>`;
 }
 
+/** The reading a [year, value] series holds at `year`, or null when it has none. */
+function seriesAt(series, year) {
+  const hit = series.find(([y]) => y === year);
+  return hit ? hit[1] : null;
+}
+
+/**
+ * The overview's then-and-now table. Every cell is looked up in the same
+ * series the charts draw from — nothing is retyped here — so the table can
+ * never drift away from the pages it summarises. A dash means the series
+ * does not reach that year (the GDP series on this site starts in 2000).
+ */
+function thenAndNowCard() {
+  const shareAt = year => AGE_SHARES.over65[AGE_SHARES.years.indexOf(year)];
+  const youngAt = year => AGE_SHARES.under15[AGE_SHARES.years.indexOf(year)];
+  const millions = v => (v === null ? '—' : v.toFixed(1));
+  const percent = v => (v === null ? '—' : `${v}%`);
+  const rate = v => (v === null ? '—' : v.toFixed(2));
+  const yen = v => (v === null ? '—' : `¥${Math.round(v)} trillion`);
+  const row = (label, a, b, c) =>
+    `<tr><td>${label}</td><td>${a}</td><td>${b}</td><td><strong>${c}</strong></td></tr>`;
+  return card('Then and now: the country in three readings',
+    `<table class="tn-table"><thead><tr><th></th><th>1970</th><th>2000</th><th>Latest</th></tr></thead><tbody>
+    ${row('Total population, millions',
+      millions(seriesAt(POPULATION_HISTORY.census, 1970)),
+      millions(seriesAt(POPULATION_HISTORY.census, 2000)),
+      `${POPULATION_HISTORY.latest.total.toFixed(1)} (2024)`)}
+    ${row('Aged 65 or over, share of all',
+      percent(shareAt(1970)), percent(shareAt(2000)), `${percent(shareAt(2024))} (2024)`)}
+    ${row('Under 15, share of all',
+      percent(youngAt(1970)), percent(youngAt(2000)), `${percent(youngAt(2024))} (2024)`)}
+    ${row('Children per woman',
+      rate(seriesAt(FERTILITY.tfr, 1970)),
+      rate(seriesAt(FERTILITY.tfr, 2000)),
+      `${rate(seriesAt(FERTILITY.tfr, 2024))} (2024)`)}
+    ${row('GDP, nominal',
+      yen(seriesAt(GDP.series, 1970)),
+      yen(seriesAt(GDP.series, 2000)),
+      `${yen(seriesAt(GDP.series, 2024))} (2024)`)}
+    </tbody></table>
+    <p>In 1970 Japan was a young country in a hurry: one person in fourteen was over 65,
+    one in four was a child, and families averaged more than two children. The 2000 column
+    catches the turn — the population still growing, but the over-65 share already past
+    one in six. The latest column is a different country again: fewer people than in 2000,
+    nearly three in ten of them over 65, and an economy that is larger in yen mostly
+    because prices and the exchange rate moved, not because it produced more.</p>`,
+    'Statistics Bureau of Japan, Population Census and Estimates; MHLW, Vital Statistics; Cabinet Office, National Accounts');
+}
+
 export function overviewView() {
   const pop = POPULATION_HISTORY;
   const merged = [...pop.census.slice(0, -1), ...pop.projection];
@@ -52,6 +101,7 @@ export function overviewView() {
     the late 2050s and at about <strong>87 million in 2070</strong> — when nearly two
     in five residents would be 65 or older.</p>`,
     pop.source)}
+  ${thenAndNowCard()}
   <div class="two-col">
     ${card('Who makes up Japan in 2024',
       shareBar(
@@ -294,5 +344,42 @@ export function regionsView() {
     <p>Figures are the published values of these offices, in the units and years shown beside each chart.
     Projections after 2020 are the IPSS medium variant; they are estimates of the future, not counts.
     This site is an explainer, not an official publication — for the underlying tables, use e-Stat.</p>`,
+    null)}
+  ${card('Words the charts use',
+    `<dl class="gloss">
+      <dt>Total fertility rate</dt>
+      <dd>The average number of children a woman would have if she passed through her
+      childbearing years experiencing each age's birth rate of the year in question.
+      In a country with Japan's low death rates, about 2.07 is the level that replaces
+      the parents' generation exactly.</dd>
+      <dt>Fiscal year</dt>
+      <dd>April to March, named for the year it starts in: fiscal 2023 runs from April 2023
+      to March 2024. Budgets, energy and emissions figures are usually fiscal; population
+      and visitor figures are usually calendar.</dd>
+      <dt>Medium-variant projection</dt>
+      <dd>The central of the IPSS's three official futures: fertility and life expectancy
+      follow the middle path, neither the optimistic nor the pessimistic one. Every
+      dashed line on this site is this variant.</dd>
+      <dt>Gross government debt</dt>
+      <dd>Everything the government owes, before subtracting what it owns. The 255%-of-GDP
+      figure on the Economy page is gross, on the IMF's definition — which is why it is
+      larger than the net figure (roughly 155%) sometimes quoted.</dd>
+      <dt>CO<sub>2</sub> equivalent</dt>
+      <dd>All greenhouse gases — methane, nitrous oxide and the rest — restated as the
+      amount of carbon dioxide that would warm the planet by the same amount, so they
+      can be added into one total.</dd>
+      <dt>Life expectancy</dt>
+      <dd>How long a newborn would live, on average, if death rates at every age stayed
+      exactly as they were in the year of the table. It is a snapshot of one year's
+      mortality, not a prediction about any real baby.</dd>
+      <dt>Job-offers ratio</dt>
+      <dd>Advertised openings per registered job-seeker at the public employment offices.
+      Above 1.00 there are more openings than applicants; Japan has sat above it for a
+      decade even as the workforce shrank.</dd>
+      <dt>Census and estimate</dt>
+      <dd>The census counts everybody, every five years. Between censuses the Statistics
+      Bureau estimates the population from residence registers and the births and deaths
+      reported to it — which is why the 2024 figures are labelled estimates.</dd>
+    </dl>`,
     null)}`;
 }
