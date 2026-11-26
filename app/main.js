@@ -1,13 +1,15 @@
-// Hash router: five pages, one per nav link. #/ overview, #/population, #/economy,
-// #/society, #/regions. Renders into <main id="app"> and marks the current nav link.
+// Hash router: six pages, one per nav link. #/ overview, #/population,
+// #/economy, #/society, #/trends, #/regions. Renders into <main id="app">
+// and marks the current nav link. Unknown hashes fall back to the overview.
 
-import { overviewView, populationView, economyView, societyView, regionsView } from './views.js';
+import { overviewView, populationView, economyView, societyView, trendsView, regionsView } from './views.js';
 
 const ROUTES = {
   '/': ['overview', overviewView, 'Japan in Numbers — Population, Economy & Society'],
   '/population': ['population', populationView, 'Population — Japan in Numbers'],
   '/economy': ['economy', economyView, 'Economy — Japan in Numbers'],
   '/society': ['society', societyView, 'Society — Japan in Numbers'],
+  '/trends': ['trends', trendsView, 'Trends — Japan in Numbers'],
   '/regions': ['regions', regionsView, 'Regions & sources — Japan in Numbers'],
 };
 

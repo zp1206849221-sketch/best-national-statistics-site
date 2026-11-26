@@ -1,8 +1,12 @@
-// Japan's headline statistics, in one data file. Every series names the office that
-// publishes it and the year it describes; the Regions & sources page lists them in full.
-// Values are the published official figures (censuses, annual estimates and accounts),
-// rounded only where the label says so.
+// Japan in Numbers — every number on this site lives here.
+// Each series names the office that publishes it and the year it covers, so a
+// reader can check any figure against the original table. The Regions & sources
+// page lists the offices in full. Values are the published official figures —
+// censuses, annual estimates and accounts — rounded only where a label says so.
+// A new page on energy, climate and visitors (Trends) draws on the three series
+// at the bottom of this file: ENERGY_MIX, EMISSIONS and TOURISM.
 
+// Country-level facts used on the Overview page.
 export const META = {
   country: 'Japan',
   capital: 'Tokyo',
@@ -11,8 +15,9 @@ export const META = {
   dataAsOf: 'October 2025',
 };
 
-// Total population at each census, in millions (Statistics Bureau, Population Census),
-// with the IPSS 2023 medium-variant projection appended as estimates.
+// Total population at each census, in millions (Statistics Bureau, Population
+// Census), with the IPSS 2023 medium-variant projection appended as estimates.
+// The census line stops at 2020; the projection line carries the story forward.
 export const POPULATION_HISTORY = {
   source: 'Statistics Bureau of Japan, Population Census; IPSS 2023 projection (medium variant)',
   census: [
@@ -28,7 +33,8 @@ export const POPULATION_HISTORY = {
   peak: { year: 2010, total: 128.06 },
 };
 
-// Age pyramid at 1 October 2024, five-year groups, millions of people [male, female].
+// Age pyramid at 1 October 2024: five-year groups, millions of people [male, female].
+// Read left to right: men on the left, women on the right, the youngest at the top.
 export const AGE_PYRAMID_2024 = {
   source: 'Statistics Bureau of Japan, Population Estimates, 1 October 2024',
   groups: [
@@ -40,7 +46,9 @@ export const AGE_PYRAMID_2024 = {
   ],
 };
 
-// The three broad age groups, share of the whole population, percent.
+// The three broad age groups as a share of the whole population, percent.
+// The crossover year — when the 65-and-over group passed the under-15 group —
+// was 1997; the table shows how fast the gap has widened since.
 export const AGE_SHARES = {
   source: 'Statistics Bureau of Japan, Population Census and Estimates',
   years: [1970, 1980, 1990, 2000, 2010, 2020, 2024],
@@ -49,7 +57,9 @@ export const AGE_SHARES = {
   over65: [7.1, 9.1, 12.1, 17.4, 23.0, 28.6, 29.3],
 };
 
-// Total fertility rate (children per woman) and births, selected years.
+// Total fertility rate (children per woman) and the 2024 birth/death counts.
+// The rate fell below the replacement level of 2.07 in 1974 and has never
+// come back; 2024 was the lowest reading ever published.
 export const FERTILITY = {
   source: 'Ministry of Health, Labour and Welfare, Vital Statistics',
   tfr: [
@@ -62,7 +72,8 @@ export const FERTILITY = {
   replacement: 2.07,
 };
 
-// Life expectancy at birth, years.
+// Life expectancy at birth, years. Women first: the gap between the sexes is
+// about six years, one of the widest among large countries.
 export const LIFE_EXPECTANCY = {
   source: 'Ministry of Health, Labour and Welfare, Abridged Life Tables 2023',
   male: 81.09,
@@ -71,6 +82,8 @@ export const LIFE_EXPECTANCY = {
 };
 
 // Nominal GDP, trillion yen (Cabinet Office, Annual Report on National Accounts).
+// The long flat stretch from 2000 to 2020, then the step up after 2020, is the
+// shape of Japan's last quarter-century in a single series.
 export const GDP = {
   source: 'Cabinet Office, National Accounts of Japan',
   series: [
@@ -82,7 +95,9 @@ export const GDP = {
   worldShareNote: 'Fourth-largest economy in US-dollar terms in 2024 (IMF)',
 };
 
-// General government gross debt as a share of GDP, percent (IMF World Economic Outlook).
+// General government gross debt as a share of GDP, percent (IMF World Economic
+// Outlook). The ratio roughly doubled between 2000 and 2020 and has sat near
+// 255% since — the heaviest load of any advanced economy.
 export const PUBLIC_DEBT = {
   source: 'IMF World Economic Outlook; Ministry of Finance, Japanese Government Bonds',
   ratio: [
@@ -93,7 +108,9 @@ export const PUBLIC_DEBT = {
   bondsYear: 'end of March 2024',
 };
 
-// Merchandise trade, trillion yen, customs basis (Ministry of Finance, Trade Statistics).
+// Merchandise trade, trillion yen, customs basis (Ministry of Finance, Trade
+// Statistics). The goods balance has been in deficit in most years since 2011,
+// when the energy import bill jumped after the Fukushima shutdowns.
 export const TRADE_2024 = {
   source: 'Ministry of Finance, Trade Statistics of Japan, 2024',
   exports: 107.1,
@@ -106,7 +123,8 @@ export const TRADE_2024 = {
   unit: 'trillion yen, 2024 (machinery groups are approximate shares of the total)',
 };
 
-// Labour market, annual averages.
+// Labour market, annual averages. The paradox of the Japanese labour market in
+// one line: the workforce is shrinking, yet employers cannot find enough people.
 export const LABOUR = {
   source: 'Statistics Bureau, Labour Force Survey; MHLW',
   unemployment2024: 2.5,
@@ -115,7 +133,8 @@ export const LABOUR = {
   jobsToApplicants2024: 1.25,
 };
 
-// Households and how people live.
+// Households and how people live: smaller homes, later weddings, more neighbours
+// from abroad, and nearly everyone online.
 export const SOCIETY = {
   source: 'Statistics Bureau, Population Census 2020; MHLW; MIC Communications Usage Survey',
   householdsMillions: 55.7,
@@ -129,6 +148,7 @@ export const SOCIETY = {
 };
 
 // Population of all 47 prefectures, 2020 census, thousands of people.
+// Tokyo alone holds more people than the smallest twenty prefectures combined.
 export const PREFECTURES = {
   source: 'Statistics Bureau of Japan, Population Census 2020',
   unit: 'thousand people',
@@ -161,6 +181,80 @@ export const PREFECTURE_DENSITY = {
   nationalAverage: 338,
 };
 
+// ---- Trends page: energy, climate, visitors --------------------------------
+
+// Where Japan's electricity came from in fiscal 2023 (April 2023 – March 2024),
+// share of generation in percent (Agency for Natural Resources and Energy,
+// METI). Fossil fuels still supply about seven tenths; renewables — hydro,
+// solar, wind, biomass and geothermal together — about 23%.
+// Note on the arithmetic: each share is published rounded to one decimal, so
+// the nine values add to 100.7 rather than exactly 100. The donut chart
+// normalises them; the legend shows the published shares.
+export const ENERGY_MIX = {
+  source: 'Agency for Natural Resources and Energy (METI), electricity generation mix, fiscal 2023',
+  year: 'FY2023',
+  rows: [
+    ['LNG', 33.8, '#2f6fb2'], ['Coal', 28.5, '#4a5872'], ['Solar', 9.8, '#d98e04'],
+    ['Oil', 8.7, '#8a94a6'], ['Nuclear', 8.5, '#7a4a9e'], ['Hydro', 7.6, '#1f8a70'],
+    ['Biomass', 2.6, '#6a9e3f'], ['Wind', 0.9, '#3fa7c4'], ['Geothermal', 0.3, '#c2436b'],
+  ],
+  fossilShare: 71.0,
+  renewablesShare: 22.9,
+  nuclearShare: 8.5,
+};
+
+// Total greenhouse-gas emissions, million tonnes of CO2 equivalent, fiscal years
+// (Ministry of the Environment / Greenhouse Gas Inventory Office). The peak was
+// fiscal 2013; by fiscal 2023 emissions were down about 24% from that peak and
+// at their lowest since fiscal 1990.
+export const EMISSIONS = {
+  source: 'Ministry of the Environment / Greenhouse Gas Inventory Office (GIO), National GHG Inventory',
+  unit: 'million tonnes CO2 equivalent, fiscal year',
+  series: [
+    [1990, 1272], [2000, 1348], [2005, 1374], [2010, 1310], [2013, 1408],
+    [2015, 1338], [2020, 1149], [2021, 1117], [2022, 1105], [2023, 1067],
+  ],
+  peak: { year: 2013, value: 1408 },
+  latest: { year: 2023, value: 1067 },
+  fallFromPeakPercent: 24.2,
+};
+
+// Visitors from abroad, millions (Japan National Tourism Organization).
+// The pandemic cut arrivals to almost nothing; the rebound passed the old
+// 2019 record within two years of the border reopening.
+export const TOURISM = {
+  source: 'Japan National Tourism Organization (JNTO), visitor arrivals',
+  arrivals: [
+    [2019, 31.88], [2020, 4.12], [2021, 0.25], [2022, 3.83], [2023, 25.07], [2024, 36.87],
+  ],
+  record: { year: 2024, visitors: 36.87 },
+  spending2024TrillionYen: 8.1,
+  spendingSource: 'Japan Tourism Agency, consumption survey of foreign visitors, 2024',
+};
+
+// Renewables as a share of electricity generation, percent (Agency for
+// Natural Resources and Energy, METI). The share more than doubled in thirteen
+// years — mostly solar, which went from almost nothing in 2010 to about a
+// tenth of all generation by fiscal 2023.
+export const RENEWABLES_SHARE = {
+  source: 'Agency for Natural Resources and Energy (METI), electricity generation mix',
+  unit: 'percent of generation, fiscal year',
+  series: [
+    [2010, 10.4], [2015, 14.5], [2020, 19.8], [2021, 20.3], [2022, 21.7], [2023, 22.9],
+  ],
+};
+
+// The five largest source markets for visitors in 2024, millions of arrivals
+// (JNTO). Together they account for roughly four in five of all visitors.
+export const VISITORS_BY_COUNTRY = {
+  source: 'Japan National Tourism Organization (JNTO), 2024',
+  unit: 'million arrivals, 2024',
+  rows: [
+    ['South Korea', 8.82, '#bc002d'], ['China', 6.98, '#2f6fb2'], ['Taiwan', 6.04, '#1f8a70'],
+    ['United States', 2.73, '#d98e04'], ['Hong Kong', 2.68, '#7a4a9e'],
+  ],
+};
+
 // The offices behind the figures, for the sources page.
 export const SOURCES = [
   ['Statistics Bureau of Japan (MIC)', 'Population Census every five years, monthly population estimates, Labour Force Survey, Family Income and Expenditure Survey.'],
@@ -170,4 +264,7 @@ export const SOURCES = [
   ['Ministry of Finance', 'Trade Statistics of Japan and the public-debt and government-bond accounts.'],
   ['National Institute of Population and Social Security Research (IPSS)', 'The official population projections used for the years after 2020.'],
   ['IMF World Economic Outlook', 'Cross-country debt ratios and dollar GDP comparisons quoted on the Economy page.'],
+  ['Agency for Natural Resources and Energy (METI)', 'The electricity generation mix and the energy balance quoted on the Trends page.'],
+  ['Ministry of the Environment / Greenhouse Gas Inventory Office', 'The national greenhouse-gas inventory behind the emissions series on the Trends page.'],
+  ['Japan National Tourism Organization (JNTO) and Japan Tourism Agency', 'Visitor arrivals by year and by market, and visitor spending, quoted on the Trends page.'],
 ];

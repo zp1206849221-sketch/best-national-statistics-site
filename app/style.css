@@ -1,5 +1,7 @@
 /* Japan in Numbers — a clean statistical-office look: ink navy, paper white,
-   one crimson accent taken from the national flag, generous tables and charts. */
+   one crimson accent taken from the national flag, generous tables and charts.
+   Everything is plain CSS: no framework, no web fonts, nothing fetched over
+   the network, so the site renders the same offline as online. */
 
 :root {
   --ink: #22304a;
@@ -22,6 +24,7 @@ body {
   line-height: 1.55;
 }
 
+/* Header: dark navy bar, sticky so the six sections are always one tap away. */
 .site-head {
   display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 2rem;
   padding: 0.9rem clamp(1rem, 4vw, 2.5rem);
@@ -41,7 +44,14 @@ main { max-width: 1060px; margin: 0 auto; padding: 1.6rem clamp(1rem, 4vw, 2.5re
 
 .hero h1, .page-head h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); margin: 0.4rem 0 0.5rem; letter-spacing: -0.01em; }
 .lede { font-size: 1.06rem; color: var(--ink-soft); max-width: 46rem; margin: 0 0 1.2rem; }
+.page-note { font-size: 0.85rem; color: var(--ink-soft); border-top: 1px solid var(--line); padding-top: 0.8rem; margin-top: 1.4rem; }
 
+/* Reading-guide callout on the overview: a tinted strip, not another card,
+   so it reads as a note about the site rather than a piece of content. */
+.callout { background: #eef3fa; border-left: 4px solid var(--blue); border-radius: 0 10px 10px 0; padding: 0.8rem 1rem; margin: 0.2rem 0 0.4rem; font-size: 0.95rem; color: var(--ink-soft); }
+.callout strong { color: var(--ink); }
+
+/* KPI strip: four white cards with a crimson top edge. */
 .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.9rem; margin: 1.1rem 0; }
 .kpi { background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--red); border-radius: 10px; padding: 0.85rem 0.95rem; }
 .kpi-value { font-size: 1.65rem; font-weight: 800; letter-spacing: -0.01em; }
@@ -53,10 +63,10 @@ main { max-width: 1060px; margin: 0 auto; padding: 1.6rem clamp(1rem, 4vw, 2.5re
 .card p { margin: 0.65rem 0; }
 .source { font-size: 0.76rem; color: #667085; margin-top: 0.7rem; }
 
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin: 1.1rem 0; }
 .two-col .card { margin: 0; }
-.two-col { margin: 1.1rem 0; }
 
+/* Charts: SVGs scale to the card width; text inside them is styled here. */
 .chart { width: 100%; height: auto; display: block; }
 .chart .tick { font-size: 11.5px; fill: #667085; }
 .chart .chart-end { font-size: 13px; font-weight: 700; fill: var(--ink); }
@@ -64,6 +74,17 @@ main { max-width: 1060px; margin: 0 auto; padding: 1.6rem clamp(1rem, 4vw, 2.5re
 .chart .bar-val { font-size: 12px; font-weight: 700; fill: var(--ink); }
 .chart .pyr-head { font-size: 13px; font-weight: 700; }
 .chart .share-lab { font-size: 12.5px; fill: var(--ink); font-weight: 600; }
+.chart .hbar-lab { font-size: 12.5px; fill: var(--ink); }
+.chart .donut-total { font-size: 17px; font-weight: 800; fill: var(--ink); }
+.chart .donut-sub { font-size: 11.5px; fill: #667085; }
+
+/* Donut + legend side by side on wide cards, stacked on narrow ones. */
+.donut-wrap { display: flex; align-items: center; gap: 0.6rem; }
+.donut-wrap .donut { flex: 0 0 300px; max-width: 46%; }
+.legend { list-style: none; margin: 0; padding: 0; flex: 1; font-size: 0.9rem; }
+.legend li { display: flex; align-items: center; gap: 0.5rem; padding: 0.18rem 0; }
+.legend-swatch { width: 12px; height: 12px; border-radius: 3px; flex: none; }
+.legend strong { margin-left: auto; font-weight: 700; }
 
 .big-stat { font-size: 1.9rem; font-weight: 800; margin: 0.2rem 0 0.6rem; }
 .big-stat span { font-size: 0.95rem; font-weight: 400; color: var(--ink-soft); }
@@ -101,6 +122,8 @@ a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
   .chart .tick { font-size: 12.5px; }
   .pref-table-wrap { max-height: 340px; }
   .kpi { padding: 0.7rem 0.8rem; }
+  .donut-wrap { flex-direction: column; align-items: stretch; }
+  .donut-wrap .donut { max-width: 320px; margin: 0 auto; }
 }
 
 @media (max-width: 420px) {
